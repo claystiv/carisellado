@@ -1,0 +1,110 @@
+@import url("https://fonts.googleapis.com/css?family=Press+Start+2P");
+
+:root {
+  --bg-color: white;
+  --text-color: black;
+  --accent-color: lime;
+
+  counter-reset: points;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 86 86" width="42" height="42"><path d="M42.998 0C19.252 0 0 19.252 0 43c0 23.749 19.252 43 42.998 43C66.748 86 86 66.749 86 43 86 19.252 66.748 0 42.998 0zM46.5 77.825V58.5h-7.002v19.325C22.965 76.184 9.818 63.035 8.176 46.5H27.5v-7.002H8.176C9.818 22.964 22.965 9.816 39.498 8.175V27.5H46.5V8.175c16.537 1.642 29.684 14.79 31.326 31.323H58.5V46.5h19.326C76.184 63.035 63.037 76.182 46.5 77.825z" fill="%2353FF45"/></svg>')
+      21 21,
+    crosshair;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  cursor: inherit;
+}
+
+body {
+  padding: 15px;
+  overflow: hidden;
+  font-family: "Press Start 2P", sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+#start {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-color);
+  text-shadow: 2px 2px 0 red;
+  background-color: var(--bg-color);
+}
+
+#stage:target #start {
+  display: none;
+}
+
+.start-text {
+  animation: pulse 1.2s ease-out infinite;
+}
+
+.start-emoji {
+  display: inline-block;
+  margin-left: 0.5em;
+  font-size: 1.4em;
+  text-shadow: none;
+}
+
+.bullseye-input {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.bullseye-input:checked {
+  counter-increment: points var(--bullseye-points);
+}
+
+.bullseye-input.special:checked {
+  counter-increment: points var(--bullseye-special-points);
+}
+
+.bullseye {
+  --points: var(--bullseye-points);
+  position: absolute;
+  top: calc(-1 * var(--bullseye-total-size));
+  animation-timing-function: ease-out;
+  animation-duration: var(--bullseye-animation-duration);
+  animation-delay: calc(
+    var(--bullseye-animation-duration) * (var(--index) - 1)
+  );
+}
+
+#stage:target .bullseye {
+  animation-name: bullseye-movement;
+}
+#score {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--accent-color);
+  text-shadow: 2px 2px 0px red;
+  pointer-events: none;
+}
+
+#stage:target #score {
+  animation: score-end 0.4s ease-in-out var(--score-delay) forwards;
+}
+
+#score:before {
+  content: counter(points);
+}
+
